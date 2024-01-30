@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CobRecibos" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="533" leftMargin="34" rightMargin="28" topMargin="42" bottomMargin="42" isSummaryWithPageHeaderAndFooter="true" uuid="42e88ab1-fb69-4f33-b523-bea8031ca302">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Tesis_2023"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="imagenPath" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\imagenes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="impresoPor" class="java.lang.String"/>
+	<parameter name="DiaHora" class="java.lang.String"/>
+	<parameter name="nombreImagen" class="java.lang.String">
+		<defaultValueExpression><![CDATA["empresa.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="descEmpresa" class="java.lang.String"/>
+	<parameter name="p_empresa_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_recibo_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select cc.cod_cliente,bp.nombre_completo nom_cliente,to_char(crc.fecha_recibo,'DD/MM/YYYY') fec_recibo,
+crc.nro_recibo_completo nro_recibo,
+round(coalesce(crc.monto_total_recibo ,0),2) monto_cobro,
+crc.nro_recibo_completo nro_comprobante,
+to_char(cs.fecha_creacion ,'DD/MM/YYYY') fec_comprobante,
+to_char(cs.fecha_vencimiento,'DD/MM/YYYY') fec_vencimiento,
+cs.nro_cuota,
+to_char(tim.fecha_vigencia_desde,'DD/MM/YYYY') inicio_vigencia,
+to_char(tim.fecha_vigencia_hasta,'DD/MM/YYYY') vigencia_fin,
+tim.cod_establecimiento||'-'||tim.cod_expedicion establecimiento,
+tim.nro_timbrado,
+bp.documento,
+'DIRECCION AQUI' direccion,
+upper(fun_numeros_a_letras(crc.monto_total_recibo)) letras,
+to_char(crc.fecha_recibo,'DD')||' de '||lower(trim(case when to_char(crc.fecha_recibo,'mm') = '01' then 'ENERO'
+  when to_char(crc.fecha_recibo,'mm') = '02' then 'FEBRERO'
+  when to_char(crc.fecha_recibo,'mm') = '03' then 'MARZO'
+  when to_char(crc.fecha_recibo,'mm') = '04' then 'ABRIL'
+  when to_char(crc.fecha_recibo,'mm') = '05' then 'MAYO'
+  when to_char(crc.fecha_recibo,'mm') = '06' then 'JUNIO'
+  when to_char(crc.fecha_recibo,'mm') = '07' then 'JULI0'
+  when to_char(crc.fecha_recibo,'mm') = '08' then 'AGOSTO'
+  when to_char(crc.fecha_recibo,'mm') = '09' then 'SETIEMBRE'
+  when to_char(crc.fecha_recibo,'mm') = '10' then 'OCTUBRE'
+  when to_char(crc.fecha_recibo,'mm') = '11' then 'NOVIEMBRE'
+  when to_char(crc.fecha_recibo,'mm') = '12' then 'DICIEMBRE' end))||' de '||to_char(crc.fecha_recibo,'YYYY') fecha
+from cob_recibos_cabecera crc, 
+cob_recibos_detalle crd,
+cob_clientes cc,
+bs_persona bp,
+bs_talonarios bt,
+bs_timbrados tim,
+bs_tipo_comprobantes btc,
+cob_saldos cs 
+where crc.bs_empresa_id = $P!{p_empresa_id}
+and crc.id = $P!{p_recibo_id}
+and crc.id = crd.cob_recibos_cabecera_id 
+and crc.cob_cliente_id = cc.id 
+and crc.bs_empresa_id = cc.bs_empresa_id 
+and cc.id_bs_persona = bp.id 
+and crc.bs_talonario_id = bt.id
+and bt.bs_timbrado_id = tim.id
+and bt.bs_tipo_comprobante_id = btc.id
+and cs.bs_empresa_id = crc.bs_empresa_id 
+and cs.id = crd.cob_saldo_id ]]>
+	</queryString>
+	<field name="cod_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cob_clientes"/>
+	</field>
+	<field name="nom_cliente" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nom_cliente"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_persona"/>
+	</field>
+	<field name="fec_recibo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_recibo"/>
+	</field>
+	<field name="nro_recibo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nro_recibo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cob_recibos_cabecera"/>
+	</field>
+	<field name="monto_cobro" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="monto_cobro"/>
+	</field>
+	<field name="nro_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nro_comprobante"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cob_recibos_cabecera"/>
+	</field>
+	<field name="fec_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_comprobante"/>
+	</field>
+	<field name="fec_vencimiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_vencimiento"/>
+	</field>
+	<field name="nro_cuota" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_cuota"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cob_saldos"/>
+	</field>
+	<field name="inicio_vigencia" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="inicio_vigencia"/>
+	</field>
+	<field name="vigencia_fin" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="vigencia_fin"/>
+	</field>
+	<field name="establecimiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="establecimiento"/>
+	</field>
+	<field name="nro_timbrado" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="nro_timbrado"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_timbrados"/>
+	</field>
+	<field name="documento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="documento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_persona"/>
+	</field>
+	<field name="direccion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="direccion"/>
+	</field>
+	<field name="letras" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="letras"/>
+	</field>
+	<field name="fecha" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha"/>
+	</field>
+	<variable name="totComprobante" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_cobro}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="148" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement x="4" y="0" width="316" height="90" uuid="8657ffb1-9791-4d42-8353-c7aad25551f0"/>
+			</rectangle>
+			<rectangle radius="10">
+				<reportElement x="4" y="92" width="502" height="54" uuid="eaf0eaee-a04a-4c20-a9c0-b273f95aa201"/>
+			</rectangle>
+			<image>
+				<reportElement x="12" y="10" width="108" height="70" uuid="9b012124-836f-4716-95c0-520cb2c86133"/>
+				<imageExpression><![CDATA[$P{imagenPath}+$P{nombreImagen}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="131" y="26" width="189" height="14" uuid="58bbbb10-450c-4301-9eea-2bde7ad9ac50"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Caacupe-mi, Aregua]]></text>
+			</staticText>
+			<rectangle>
+				<reportElement x="323" y="0" width="183" height="90" uuid="77853f28-8f34-493c-9874-5d62bf7af309"/>
+			</rectangle>
+			<textField>
+				<reportElement x="405" y="7" width="88" height="14" uuid="eee1acbc-bcc9-48ba-9cf0-0c5c4c027ec4"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_timbrado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="337" y="6" width="65" height="14" uuid="e05eb8ab-c715-4717-b627-558f349537a6"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Timbrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="21" width="42" height="14" uuid="f39d753a-fb9e-48c9-a356-0bd4258221fb"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Vigencia:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="380" y="22" width="120" height="14" uuid="d5a5ab5d-e132-437c-9ca4-c482058cbc84"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{inicio_vigencia}+" "+$F{vigencia_fin}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="338" y="37" width="155" height="14" uuid="af305a99-0c91-40a1-84da-316d07ceca6a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RUC: 4864105-7]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="337" y="67" width="163" height="19" uuid="033a4031-dbcd-4fc8-a5d5-61d0a1c9d75d"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_recibo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="12" y="102" width="44" height="12" uuid="2b3fb934-d07e-4ab0-8ba7-54c346f6873a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Asuncion:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="131" width="44" height="12" uuid="56e439c4-f042-4bc4-a2c3-57c8e7a851e4"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="116" width="56" height="12" uuid="d9d149ce-ba78-41f3-8c34-cf85e851e39b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Razon Social:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="264" y="102" width="56" height="12" uuid="fdffcaed-6868-4fbd-9def-b3673c24f519"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="321" y="102" width="100" height="12" uuid="8550292c-a978-43f6-947f-e102afd10898"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="102" width="207" height="12" uuid="f9f4da25-4054-4f37-a606-417bd94374f9"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="68" y="116" width="195" height="12" uuid="45e60b73-528c-4151-811b-3087c3eee81b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nom_cliente}+"( "+$F{cod_cliente}+" )"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="56" y="131" width="207" height="12" uuid="b1b79849-784d-4fd8-98b5-f0f45f673309"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{direccion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="131" y="12" width="189" height="14" uuid="ec618168-5954-4b8d-aa76-be7d64db8a30"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nueva Americana casi la Pachal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="40" width="189" height="14" uuid="9d4bb756-c783-4aff-a1fc-979916cc260f"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Telefonos 021 555 222 0986 - 181870]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="132" y="55" width="189" height="14" uuid="b8ceb64c-b27a-4484-a551-71ac1bda3128"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Correos: fernandorafa@live.com]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="131" y="69" width="189" height="14" uuid="6a841b89-2eaa-43af-9d7a-ee866ad77c15"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Creditos de Consumo.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="348" y="51" width="124" height="14" uuid="b29a452b-6554-4406-b33e-ff116de96ed2"/>
+				<textElement textAlignment="Center">
+					<font size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[RECIBO]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="32">
+			<rectangle>
+				<reportElement x="4" y="3" width="502" height="27" uuid="a2a308c0-5081-4476-84d3-e2ed20939f71"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="12" y="9" width="79" height="14" uuid="20a82f33-8fbb-4fd3-891c-89e4e5a31b08"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="217" y="6" width="66" height="23" uuid="8e4a9dfd-997b-49fe-a88c-c15b0d654ac8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Vencimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="306" y="12" width="59" height="12" uuid="2bdb3b96-1d8a-4d4c-9de0-6b15681657c2"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuota]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="396" y="12" width="70" height="12" uuid="ce3c22d6-b1a5-4182-ac7e-8e2121b67aaf"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Cobro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="125" y="3" width="64" height="27" uuid="6908fcbf-2401-45ff-8853-92f19e081021"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Comprobante]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="23">
+			<textField>
+				<reportElement x="7" y="2" width="100" height="15" uuid="a6ef0f5a-8fc2-412a-ae73-3fd8343d5dbe"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nro_comprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="206" y="2" width="89" height="14" uuid="2428cd85-4427-4f87-aa39-3bfbdd7a2b54"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fec_vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="300" y="2" width="69" height="15" uuid="c6303d1b-6897-4ec5-904a-1c96b0fefb4b"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{nro_cuota}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="379" y="3" width="107" height="15" uuid="135b61e0-e4b9-434d-9ab5-6d8bff855275"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{monto_cobro}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###" isBlankWhenNull="true">
+				<reportElement x="113" y="2" width="89" height="15" uuid="4410ccd4-21e6-49f5-a700-a8a10c040d07"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fec_comprobante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="72">
+			<rectangle radius="10">
+				<reportElement x="1" y="2" width="505" height="37" uuid="4e760730-7bb2-480c-98e8-88972697f461"/>
+			</rectangle>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="300" y="8" width="187" height="25" uuid="519e42ac-3e05-4ef1-9194-9354bfb5f697"/>
+				<textElement textAlignment="Right">
+					<font size="13" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{totComprobante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="8" y="8" width="72" height="25" uuid="949fc604-600e-4d63-904b-11e4946fbac0"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="13" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTALES:]]></text>
+			</staticText>
+			<textField>
+				<reportElement stretchType="ContainerHeight" x="80" y="11" width="220" height="18" uuid="0212f22b-7416-4f92-9fcf-44b3a62e1ace"/>
+				<textFieldExpression><![CDATA[$F{letras}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
