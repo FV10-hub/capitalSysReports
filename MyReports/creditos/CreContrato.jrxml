@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CreContrato" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d867720-ff85-471c-8b8b-c978ba7cfb14">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Tesis_2023"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="p_nombre" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fernando Vazquez"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA["48641038"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_monto" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2000000"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 'Hola' AS mensaje;]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="10" width="290" height="30" uuid="0a41ea61-a1d4-4df2-9bec-55fa8aa20e22"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[CONTRATO DE SERVICIOS PROFESIONALES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="40" width="290" height="30" uuid="6bfe7559-1109-4c67-b081-8c1d53b307d3"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[LAS PARTES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="18" uuid="c921d91a-428f-4390-b7de-5661050b34e6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[EJEMPLLO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="367" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="10" width="534" height="70" uuid="f1b02c28-31d4-4439-89e6-ef731304fb41"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Entre la Consultora CapitalSys S.A, en adelante denominada LA PRESTADORA DE SERVICIOS, con domicilio en la calle Ingavi Nº 1686 de la ciudad de Asunción representada en este acto por el Lic. Fernando Vazquez, de nacionalidad paraguaya, con C.I. Nº 4.864.105 en su carácter de Socio-Gerente, por una parte.----------------------"+
+"Reconociéndose LAS PARTES con plena capacidad legal para celebrar este contrato, lo hacen conforme a las siguientes cláusulas: ---------------------------------------------------"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="90" width="534" height="120" uuid="d6b5b874-d7ad-4e89-aa10-1c85645fa6a1"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[	"O B J E T O \n PRIMERA: LA CONTRATANTE, contrata a la PRESTADORA DE SERVICIOS para desempeñarse como Responsable de la Contabilidad y Administración, y todas las gestiones que conllevan el cumplimiento formal de las obligaciones propias de estas áreas."+
+"LUGAR Y FORMA DE PRESTACIÓN DE SERVICIOS"+
+"SEGUNDA: La prestación del Servicio, objeto del presente contrato, la efectuará LA PRESTADORA DE SERVICIOS en las oficinas de la CONSULTORA, ubicado en el domicilio indicado anteriormente, mediante la recepción de documentaciones e informaciones proveídas por LA CONTRATANTE. Por ende, la función de LA PRESTADORA DE SERVICIOS consistirá en recibir y procesar en su Centro de servicios, los datos constitutivos de todas las operaciones realizadas por LA CONTRATANTE."
+]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="217" width="534" height="92" uuid="f7496e8b-1542-4c10-9ed6-54d0f6b8d8ae"/>
+				<textElement>
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TERCERA: EL CONTRATANTE deberá suministrar todas las documentaciones e informaciones para el procesamiento oportuno de los mismos, a fin de que LA PRESTADORA DE SERVICIOS emita los informes correspondientes. LA PRESTADORA DE SERVICIOS no asumirá responsabilidad alguna por el mal funcionamiento de la información, comunicación y recepción tardía de los documentos, responsabilidad del CONTRATANTE, ni por la provisión extemporánea de documentaciones e informaciones que repercutan en presentaciones en forma tardía y en consecuencia surjan multas por dichas presentaciones.-------------------------------------"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="310" width="100" height="30" uuid="239bb8c9-47d8-425f-81e6-5cc2fe6479e7"/>
+				<textFieldExpression><![CDATA["etc...."]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="104" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="40" width="210" height="64" uuid="71435fd5-966b-4dbb-a030-429bb4ba67aa"/>
+				<textFieldExpression><![CDATA["Nombre Completo: "+$P{p_nombre}+ "\n"
++"Documento: "+$P{p_documento}+ "\n"
++"Monto: "+$P{p_monto}+ "\n"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-1" y="36" width="210" height="1" uuid="4589f395-0ab3-4909-9418-6110be1f1cf5"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>

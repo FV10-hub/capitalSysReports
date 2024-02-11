@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CreContrato" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d867720-ff85-471c-8b8b-c978ba7cfb14">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Tesis_2023"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="p_nombre" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fernando Vazquez"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_documento" class="java.lang.String">
+		<defaultValueExpression><![CDATA["48641038"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_monto" class="java.lang.String">
+		<defaultValueExpression><![CDATA["2000000"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_vencimiento" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fernando Vazquez"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_fecha" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fernando Vazquez"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_cant_cuota" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fernando Vazquez"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_monto_cuota" class="java.lang.String">
+		<defaultValueExpression><![CDATA["Fernando Vazquez"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT 'Hola' AS mensaje;]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement x="140" y="10" width="290" height="30" uuid="0a41ea61-a1d4-4df2-9bec-55fa8aa20e22"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGARE AL PORTADOR]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="140" y="40" width="290" height="30" uuid="6bfe7559-1109-4c67-b081-8c1d53b307d3"/>
+				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#FFFFFF"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[EN GUARANIES]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="18" uuid="c921d91a-428f-4390-b7de-5661050b34e6"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[EJEMPLLO]]></text>
+			</staticText>
+		</band>
+	</title>
+	<detail>
+		<band height="459" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="90" width="534" height="90" uuid="f1b02c28-31d4-4439-89e6-ef731304fb41"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["PAGARÉ, sin protesto, a la orden de CAPITALSYS S.A con RUC N° 4864105-7, la suma de Gs. "+ $P{p_monto} +" (GUARANIES VALOR EN LETRAS), pagaderos en "+ $P{p_cant_cuota} +" (VALOR EN LETRAS) cuotas mensuales, consecutivas e iguales de Gs. "+ $P{p_monto_cuota} +" (VALOR EN LETRAS), en su domicilio ubicado en RUTA TRANSCHACO KM. 13.5, PASEO ALAMEDA, DE LA CIUDAD DE MARIANO ROQUE ALONSO, PARAGUAY, y a opción de éste, en cualquier otro lugar donde lo requiera con antelación a la fecha del pago, por igual valor recibido a mi/nuestra entera satisfacción, comprometiendo mi/nuestros bienes propios y/o reservados. "]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="187" width="534" height="142" uuid="d6b5b874-d7ad-4e89-aa10-1c85645fa6a1"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["La falta de pago de este instrumento a su vencimiento, me/nos hará incurrir en mora de pleno derecho y producirá el decaimiento de los plazos de todas mis/nuestras demás obligaciones para con el acreedor, facultándolo a exigir su pago inmediato sin necesidad de protesto ni requerimiento judicial o extrajudicial alguno, en cuyo caso la totalidad de la deuda devengará un interés moratorio de …….….. ciento (…..) anual y un interés punitorio anual equivalente al treinta por ciento (30%) del interés moratorio, que estarán vigentes desde el período de la mora hasta el día de su efectivo pago, el cual será automáticamente exigible. Los intereses moratorios serán capitalizados cada treinta días o cada menor período que la ley aplicable permita. Los intereses serán calculados en base al número de días efectivamente transcurridos (incluyendo el primer día, pero excluyendo el último) sobre la base de un año de 360 días. \n Este pagaré lleva la cláusula SIN PROTESTO y dispensa por lo tanto al portador a formalizar el protesto para ejercer la acción de regreso."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="336" width="534" height="72" uuid="f7496e8b-1542-4c10-9ed6-54d0f6b8d8ae"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Times New Roman" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Tanto el capital como los intereses de este Pagaré serán pagaderos en moneda de curso legal, sin deducción alguna por concepto o por cuenta de cualquier tributo, derecho u otro recargo, presente o futuro, establecido o gravado sobre este Pagaré, sobre sus rendimientos, o sobre el Acreedor, por el Gobierno de la República del Paraguay o cualquier otra jurisdicción o cualquier subdivisión política de esta, desde la cual se remita cualquier pago bajo el presente Pagaré."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="420" width="100" height="30" uuid="239bb8c9-47d8-425f-81e6-5cc2fe6479e7"/>
+				<textFieldExpression><![CDATA["etc...."]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="10" width="172" height="20" uuid="4dcd29ef-a7ba-4b80-b9b4-cc147d46564d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["VENCIMIENTO: "+$P{p_vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="10" width="262" height="20" uuid="4b3e7d2a-5ab7-444c-8819-512d494d235e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["VALOR GUARANIES: GS. "+$P{p_monto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="290" y="40" width="262" height="22" uuid="413772fc-15d6-4617-82ab-c68b3d65d3f7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Aregua, "+$P{p_fecha}+".-"]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="104" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="40" width="210" height="64" uuid="71435fd5-966b-4dbb-a030-429bb4ba67aa"/>
+				<textFieldExpression><![CDATA["Nombre Completo: "+$P{p_nombre}+ "\n"
++"Documento: "+$P{p_documento}+ "\n"
++"Monto: "+$P{p_monto}+ "\n"]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="-1" y="36" width="210" height="1" uuid="4589f395-0ab3-4909-9418-6110be1f1cf5"/>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>
