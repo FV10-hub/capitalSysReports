@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="StoInventarioExistenciaArticulos" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="13fef188-e802-4d67-9d50-fbe99e91e5fe">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Capital_adapter"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="imagenPath" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\reportes\\imagenes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DiaHora" class="java.lang.String"/>
+	<parameter name="nombreImagen" class="java.lang.String">
+		<defaultValueExpression><![CDATA["empresa.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="condicion" class="java.lang.String"/>
+	<parameter name="impresoPor" class="java.lang.String">
+		<defaultValueExpression><![CDATA["fernnado"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="descEmpresa" class="java.lang.String">
+		<defaultValueExpression><![CDATA["empresa.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_empresa_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_categoria_id" class="java.lang.Long"/>
+	<parameter name="p_sucursal_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sucursal" class="java.lang.String"/>
+	<parameter name="categoria" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[select
+	sc.cod_categoria,
+	sc.descripcion as desc_categoria,
+    s.cod_sucursal,
+    a.cod_articulo ,
+    e.existencia as cant_dispon,
+    s.descripcion as desc_sucursal,
+    a.descripcion as desc_articulo
+ from sto_articulos_existencias e, sto_articulos a, bs_sucursal s, sto_categorias sc 
+where a.bs_empresa_id = $P!{p_empresa_id}
+  and (sc.id = $P!{p_categoria_id} or $P!{p_categoria_id} is null)
+  and ((($P!{p_sucursal_id} IS NULL) OR s.id = $P!{p_sucursal_id}))
+  and a.bs_empresa_id = sc.bs_empresa_id 
+  and a.sto_categorias_id = sc.id
+  and e.sto_articulo_id = a.id
+  and e.bs_sucursal_id = s.id
+order by sc.cod_categoria,sc.descripcion,s.cod_sucursal, a.cod_articulo]]>
+	</queryString>
+	<field name="cod_categoria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_categoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sto_categorias"/>
+	</field>
+	<field name="desc_categoria" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="desc_categoria"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sto_categorias"/>
+	</field>
+	<field name="cod_sucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_sucursal"/>
+	</field>
+	<field name="cod_articulo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="cod_articulo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sto_articulos"/>
+	</field>
+	<field name="cant_dispon" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="cant_dispon"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sto_articulos_existencias"/>
+	</field>
+	<field name="desc_sucursal" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="desc_sucursal"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_sucursal"/>
+	</field>
+	<field name="desc_articulo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="desc_articulo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="sto_articulos"/>
+	</field>
+	<group name="COD_SUCURSAL">
+		<groupExpression><![CDATA[$F{cod_sucursal}]]></groupExpression>
+		<groupHeader>
+			<band height="36">
+				<textField>
+					<reportElement style="SubTitle" x="67" y="10" width="305" height="20" forecolor="#000000" uuid="546b1b42-9189-4109-a531-ba9dd8417697"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cod_sucursal} + " - "+ $F{desc_sucursal}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="8" y="9" width="58" height="20" uuid="d80af4eb-22ce-4127-b0cf-01c08638b6f5"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Sucursal:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="cod_categoria">
+		<groupExpression><![CDATA[$F{cod_categoria}]]></groupExpression>
+		<groupHeader>
+			<band height="29">
+				<textField>
+					<reportElement style="SubTitle" x="67" y="4" width="305" height="20" forecolor="#000000" uuid="5b2bccaa-3961-44c8-aea4-3c281453a23d"/>
+					<textElement>
+						<font size="12" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{cod_categoria} + " - "+ $F{desc_categoria}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="8" y="3" width="58" height="20" uuid="95226c33-42ee-460e-9632-0eca75e0aa3d"/>
+					<textElement>
+						<font size="12"/>
+					</textElement>
+					<text><![CDATA[Categoria:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="114" splitType="Stretch">
+			<staticText>
+				<reportElement style="SubTitle" x="169" y="36" width="216" height="22" uuid="f4c28160-0227-4f52-8ea0-f1f8d88d5d0f"/>
+				<text><![CDATA[Existencia para Inventario]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="10" y="5" width="100" height="20" uuid="b83cebb9-56d8-4b35-9406-2406d7fa292b"/>
+				<textFieldExpression><![CDATA[$P{DiaHora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="30" width="100" height="20" uuid="70b5cf8b-29d2-487d-bc7c-1c10483bfdf0"/>
+				<textFieldExpression><![CDATA[$P{impresoPor}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="501" y="4" width="40" height="20" uuid="876a505d-7ea5-4a01-a9a4-d6fc87fe540e"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Column header" x="421" y="4" width="80" height="20" uuid="94813766-4657-4e13-ad15-18123c7cbdcb"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="11" y="68" width="53" height="20" uuid="893a8e09-3855-4114-b546-64350c18a621"/>
+				<text><![CDATA[Sucursal:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="90" width="58" height="16" uuid="97de6ae3-0cec-4e36-8721-529dd4957f07"/>
+				<text><![CDATA[Categoria:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="61" width="555" height="1" uuid="207aa568-9f77-419d-bcbb-0b07e6c03de5"/>
+			</line>
+			<line>
+				<reportElement x="0" y="112" width="555" height="1" uuid="62163d7a-72d6-4a13-bf6c-6624b8d378ea"/>
+			</line>
+			<image>
+				<reportElement x="239" y="0" width="48" height="36" uuid="40029276-e903-4366-b286-70df6cfd1cf1"/>
+				<imageExpression><![CDATA[$P{imagenPath}+$P{nombreImagen}]]></imageExpression>
+			</image>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="68" width="432" height="20" uuid="b949bf39-cbef-4179-bda4-4823df2e84e5"/>
+				<textFieldExpression><![CDATA[$P{sucursal}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="70" y="90" width="432" height="20" uuid="e32b4e5f-3346-4699-a1f9-4b992b10c52b"/>
+				<textFieldExpression><![CDATA[$P{categoria}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="14" width="555" height="1" uuid="b03006f9-1f09-4968-bd15-307408670143"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="111" height="15" uuid="65d09c49-0c32-457d-abf2-4453494662e9"/>
+				<text><![CDATA[Codigo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="110" y="0" width="111" height="15" uuid="3c36268e-f6e0-48fd-a256-db422580d80b"/>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="345" y="0" width="101" height="15" uuid="f1fcae51-c293-4997-bcef-70710fb0bbde"/>
+				<text><![CDATA[Cant. Disponible]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="455" y="0" width="93" height="15" uuid="e6b6a95a-a504-4cd6-bfbb-743e9c763fa3"/>
+				<text><![CDATA[Cant. Inventario]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="16" splitType="Stretch">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="462" y="15" width="93" height="1" uuid="cac8e72e-75ee-4b95-91e4-8517983596d5"/>
+				<graphicElement>
+					<pen lineWidth="0.5" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="0" y="0" width="111" height="15" uuid="d63686e9-078b-44e8-8a0f-b8fe1a06e4ce"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cod_articulo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="110" y="1" width="234" height="15" uuid="849c4d62-ff93-440c-9448-260884d498a0"/>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{desc_articulo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="Detail" x="344" y="0" width="101" height="15" uuid="75bac945-5a9a-4d4b-9ab0-d8d5701a0ae3"/>
+				<textElement textAlignment="Center">
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cant_dispon}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
