@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CreContrato" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="1d867720-ff85-471c-8b8b-c978ba7cfb14">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Tesis_2023"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Capital_adapter"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<parameter name="p_nombre" class="java.lang.String">
 		<defaultValueExpression><![CDATA["Fernando Vazquez"]]></defaultValueExpression>
@@ -70,10 +70,9 @@
 				<textElement>
 					<font fontName="Times New Roman" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[	"O B J E T O \n PRIMERA: LA CONTRATANTE, contrata a la PRESTADORA DE SERVICIOS para desempeñarse como Responsable de la Contabilidad y Administración, y todas las gestiones que conllevan el cumplimiento formal de las obligaciones propias de estas áreas."+
+				<textFieldExpression><![CDATA["O B J E T O \n PRIMERA: LA CONTRATANTE, contrata a la PRESTADORA DE SERVICIOS para desempeñarse como Responsable de la Contabilidad y Administración, y todas las gestiones que conllevan el cumplimiento formal de las obligaciones propias de estas áreas."+
 "LUGAR Y FORMA DE PRESTACIÓN DE SERVICIOS"+
-"SEGUNDA: La prestación del Servicio, objeto del presente contrato, la efectuará LA PRESTADORA DE SERVICIOS en las oficinas de la CONSULTORA, ubicado en el domicilio indicado anteriormente, mediante la recepción de documentaciones e informaciones proveídas por LA CONTRATANTE. Por ende, la función de LA PRESTADORA DE SERVICIOS consistirá en recibir y procesar en su Centro de servicios, los datos constitutivos de todas las operaciones realizadas por LA CONTRATANTE."
-]]></textFieldExpression>
+"SEGUNDA: La prestación del Servicio, objeto del presente contrato, la efectuará LA PRESTADORA DE SERVICIOS en las oficinas de la CONSULTORA, ubicado en el domicilio indicado anteriormente, mediante la recepción de documentaciones e informaciones proveídas por LA CONTRATANTE. Por ende, la función de LA PRESTADORA DE SERVICIOS consistirá en recibir y procesar en su Centro de servicios, los datos constitutivos de todas las operaciones realizadas por LA CONTRATANTE."]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="10" y="217" width="534" height="92" uuid="f7496e8b-1542-4c10-9ed6-54d0f6b8d8ae"/>

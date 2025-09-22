@@ -1,0 +1,558 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VtwLibroIvaVentaLey125_91Normal" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="79ee604b-1f79-4bc4-89f1-db0aa0be1bab">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fechaIni" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fechaFin" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="rucDesc" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mesDesc" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="razonDesc" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sucursalDesc" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="direccionDesc" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="transporte" class="java.lang.String" isForPrompting="false"/>
+	<parameter name="empresa" class="java.lang.Long"/>
+	<parameter name="sucursal" class="java.lang.Long" isForPrompting="false"/>
+	<parameter name="serie" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\inv\\reportes\\Lazos\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="mostrarResumen" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[SELECT V.TIP_COMPROBANTE,
+			 V.SERIE,
+			 V.NRO_COMPROBANTE,
+			 TRUNC(V.FEC_COMPROBANTE) FEC_COMPROBANTE,
+			 V.MES,
+			 V.ANIO,
+			 V.DESC_TIPO_COMPROBANTE,
+			 V.RUC_CLIENTE || '-' || V.DV_CLIENTE RUC_CLIENTE,
+			 ROUND(V.TOT_GRAVADA * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_GRAVADA_10,
+			 ROUND(V.TOT_GRAVADA_5 * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_GRAVADA_5,
+			 ROUND(V.TOT_IVA_5 * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_IVA_5,
+			 ROUND(V.TOT_EXENTA * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_EXENTA,
+			 ROUND(V.TOT_IVA * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_IVA,
+			 ROUND(V.TOT_COMPROBANTE * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_COMPROBANTE,
+			 V.SERIE_FACTURA,
+			 V.NRO_CUOTAS,
+			 V.ID_EMPRESA,
+			 V.TIPO_DOCUMENTO,
+			 ROUND(V.TOT_GRAVADA_10 * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_COMPROBANTE,
+			 ROUND(V.TOT_IVA_10 * DECODE(V.TIP_COMPROBANTE, 'NCR', -1, 1)) TOT_IVA_10,
+			 V.CLIENTE,
+			 V.NRO_TIMBRADO
+	FROM VTWV_LIBRO_VENTAS V
+ WHERE V.ID_EMPRESA = $P{empresa}
+	 AND (V.ID_SUCURSAL = $P{sucursal} OR $P{sucursal} IS NULL)
+	 AND TRUNC(V.FEC_COMPROBANTE) BETWEEN TO_DATE($P{fechaIni},'dd/mm/yyyy') AND TO_DATE($P{fechaFin},'dd/mm/yyyy')
+   AND (($P{serie} IS NULL OR V.SERIE = $P{serie}))]]>
+	</queryString>
+	<field name="TIP_COMPROBANTE" class="java.lang.String"/>
+	<field name="SERIE" class="java.lang.String"/>
+	<field name="NRO_COMPROBANTE" class="java.lang.String"/>
+	<field name="FEC_COMPROBANTE" class="java.sql.Timestamp"/>
+	<field name="MES" class="java.lang.String"/>
+	<field name="ANIO" class="java.lang.String"/>
+	<field name="DESC_TIPO_COMPROBANTE" class="java.lang.String"/>
+	<field name="RUC_CLIENTE" class="java.lang.String"/>
+	<field name="TOT_GRAVADA_10" class="java.math.BigDecimal"/>
+	<field name="TOT_GRAVADA_5" class="java.math.BigDecimal"/>
+	<field name="TOT_IVA_5" class="java.math.BigDecimal"/>
+	<field name="TOT_EXENTA" class="java.math.BigDecimal"/>
+	<field name="TOT_IVA" class="java.math.BigDecimal"/>
+	<field name="TOT_COMPROBANTE" class="java.math.BigDecimal"/>
+	<field name="SERIE_FACTURA" class="java.lang.String"/>
+	<field name="NRO_CUOTAS" class="java.lang.String"/>
+	<field name="ID_EMPRESA" class="java.math.BigDecimal"/>
+	<field name="TIPO_DOCUMENTO" class="java.lang.String"/>
+	<field name="TOT_IVA_10" class="java.math.BigDecimal"/>
+	<field name="CLIENTE" class="java.lang.String"/>
+	<field name="NRO_TIMBRADO" class="java.lang.String"/>
+	<variable name="sumCol1" class="java.math.BigDecimal" resetType="Group" resetGroup="mesg" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT_GRAVADA_5}]]></variableExpression>
+	</variable>
+	<variable name="sumCol2" class="java.math.BigDecimal" resetType="Group" resetGroup="mesg" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT_GRAVADA_10}]]></variableExpression>
+	</variable>
+	<variable name="sumCol3" class="java.math.BigDecimal" resetType="Group" resetGroup="mesg" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT_IVA_5}]]></variableExpression>
+	</variable>
+	<variable name="sumCol4" class="java.math.BigDecimal" resetType="Group" resetGroup="mesg" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT_IVA_10}]]></variableExpression>
+	</variable>
+	<variable name="sumCol5" class="java.math.BigDecimal" resetType="Group" resetGroup="mesg" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT_EXENTA}]]></variableExpression>
+	</variable>
+	<variable name="sumCol6" class="java.math.BigDecimal" resetType="Group" resetGroup="mesg" calculation="Sum">
+		<variableExpression><![CDATA[$F{TOT_COMPROBANTE}]]></variableExpression>
+	</variable>
+	<group name="mesg" isStartNewPage="true">
+		<groupExpression><![CDATA[$F{MES}]]></groupExpression>
+		<groupFooter>
+			<band height="10">
+				<staticText>
+					<reportElement x="0" y="0" width="315" height="10" uuid="39699ad2-1a13-4e0f-81d3-a99ef8192059"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement>
+						<font fontName="Arial" size="6" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Totales del Mes]]></text>
+				</staticText>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="285" y="0" width="45" height="10" uuid="9ab1b547-dd9f-4a17-8c11-3c73801f5b44"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumCol1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="330" y="0" width="45" height="10" uuid="6ad6cab4-64a7-4522-92b0-474b136f32b4"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumCol2}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="375" y="0" width="45" height="10" uuid="f0875357-58f6-4389-9cf3-6d564f695476"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumCol3}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="420" y="0" width="45" height="10" uuid="2e99af48-03bd-4d9c-9219-77cb2c3d1aeb"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumCol4}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="465" y="0" width="45" height="10" uuid="4add5bb4-cdac-4c89-aaa0-24e89fb7ace0"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumCol5}]]></textFieldExpression>
+				</textField>
+				<textField pattern="#,##0" isBlankWhenNull="true">
+					<reportElement x="510" y="0" width="45" height="10" uuid="79619ec8-574d-4264-9b9a-25ca993ddffd"/>
+					<box>
+						<topPen lineWidth="1.0"/>
+					</box>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="6"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{sumCol6}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="29">
+			<textField>
+				<reportElement x="0" y="0" width="194" height="14" uuid="5ad0402b-c2a2-4a71-962a-560715a4c657"/>
+				<textElement textAlignment="Left">
+					<font fontName="Arial" size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Folio: "+$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="0" width="141" height="14" uuid="2fb9a906-7dca-4f28-9886-4ac1efd00e67"/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{fechaIni}+" a "+$P{fechaFin}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="14" width="555" height="15" uuid="b21aef59-0a7e-42df-863f-5ec0cb03fd38"/>
+				<textFieldExpression><![CDATA[$P{sucursalDesc}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="83" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="42" y="44" width="513" height="12" uuid="5280490f-26d0-4202-9880-109523b19a55"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rucDesc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="32" width="42" height="12" uuid="ede5795f-e823-461c-9b91-b197225ee27e"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Direccion:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="42" height="12" uuid="350e2f07-dca6-4d01-99e3-0b340068be7b"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Actividad:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="42" y="32" width="513" height="12" uuid="102d87a7-d398-4521-94e1-7e8181c95677"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{direccionDesc}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="42" y="20" width="513" height="12" uuid="66573118-d18f-4c19-a5fd-5420403e283f"/>
+				<textElement>
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{razonDesc}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="44" width="42" height="12" uuid="547a123b-c443-46dc-805c-077be52d6a2d"/>
+				<textElement>
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[R.U.C.:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="135" y="68" width="110" height="15" uuid="3d6bb541-11f6-4ce7-9361-14686e70d1b8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="465" y="68" width="45" height="15" uuid="9d6203c5-dbc6-48d3-a089-f86b75d208f8"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Exentas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="70" y="68" width="35" height="15" uuid="e26f868f-1863-481c-a097-972935d0db28"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="375" y="68" width="45" height="15" uuid="93ad5ca1-3e34-4de5-8420-b0d52a6a6b02"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IVA 5%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="68" width="70" height="15" uuid="08d7fb6a-f945-4b4c-ae55-b52527d7f049"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="420" y="68" width="45" height="15" uuid="60894a0b-0ce9-477a-8306-9e0947f2901e"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IVA 10%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="285" y="68" width="45" height="15" uuid="0f054867-b369-43c6-bcf5-74b0476999f4"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gravadas 5%]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="555" height="20" uuid="b9a32691-fbbf-43c6-823a-5ad721544cd0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Arial" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Libro de Ventas Ley 125/91]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="56" width="555" height="12" uuid="e5042b93-5073-4fd1-8a10-a3f9b14a28fd"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{MES}.equalsIgnoreCase("01")? "ENERO": ($F{MES}.equalsIgnoreCase("02")? "FEBRERO": ($F{MES}.equalsIgnoreCase("03")? "MARZO": ($F{MES}.equalsIgnoreCase("04")? "ABRIL": ($F{MES}.equalsIgnoreCase("05")? "MAYO": ($F{MES}.equalsIgnoreCase("06")? "JUNIO": ($F{MES}.equalsIgnoreCase("07")? "JULIO": ($F{MES}.equalsIgnoreCase("08")? "AGOSTO": ($F{MES}.equalsIgnoreCase("09")? "SETIEMBRE": ($F{MES}.equalsIgnoreCase("10")? "OCTUBRE": ($F{MES}.equalsIgnoreCase("11")? "NOVIEMBRE": ($F{MES}.equalsIgnoreCase("12")? "DICIEMBRE":null)))))))))))) + " de " + $F{ANIO}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="105" y="68" width="30" height="15" uuid="b8354784-ed8c-4040-9666-0d6df0b5fb28"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Timbrado]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="510" y="68" width="45" height="15" uuid="f654ef02-2dbd-4f9d-b13a-db27d67f9f08"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="245" y="68" width="40" height="15" uuid="084950d8-6551-4cdd-9436-c02bd239d2b0"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement>
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[R.U.C.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="68" width="45" height="15" uuid="6a8a2a0f-6fa3-4b0a-83b8-7a490ee7c169"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+					<bottomPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gravadas 10%]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="10" splitType="Stretch">
+			<textField isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="70" height="10" uuid="94e8b462-8fa5-48d6-bb54-bf44962e8921"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TIP_COMPROBANTE} + "  " + $F{SERIE} + "-" + $F{NRO_COMPROBANTE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="70" y="0" width="35" height="10" uuid="7d9399cc-e879-479e-9ea8-351e3233c7ec"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{FEC_COMPROBANTE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="105" y="0" width="30" height="10" uuid="a1544013-3ff5-473c-be67-ead781fc631e"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NRO_TIMBRADO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="135" y="0" width="110" height="10" uuid="2a9503f9-f989-457f-b98a-846e95b64219"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CLIENTE}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="245" y="0" width="40" height="10" uuid="b1a38e3b-265e-4aa6-a3c0-80ac6cba80d1"/>
+				<textElement>
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{RUC_CLIENTE}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.#" isBlankWhenNull="true">
+				<reportElement x="285" y="0" width="45" height="10" uuid="2387706f-ca16-4a46-ae67-13e419f213de"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT_GRAVADA_5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.#" isBlankWhenNull="true">
+				<reportElement x="330" y="0" width="45" height="10" uuid="bbeb9dc8-7ff8-4038-8821-41e583e779c5"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT_GRAVADA_10}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.#" isBlankWhenNull="true">
+				<reportElement x="375" y="0" width="45" height="10" uuid="b8cb12e7-8d3c-469b-bcab-3a81397ec56b"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT_IVA_5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.#" isBlankWhenNull="true">
+				<reportElement x="420" y="0" width="45" height="10" uuid="61fc2da9-e18f-4e35-9a91-ea494a1dc08a"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT_IVA_10}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.#" isBlankWhenNull="true">
+				<reportElement x="465" y="0" width="45" height="10" uuid="06bb8404-2ad4-4508-a944-338fa681f2b4"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT_EXENTA}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,###.#" isBlankWhenNull="true">
+				<reportElement x="510" y="0" width="45" height="10" uuid="2ce43fe4-f578-4ef5-86bd-fe7879799da2"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{TOT_COMPROBANTE}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="10" splitType="Stretch">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="420" y="0" width="45" height="10" uuid="2be49e14-c29d-46f0-8036-8c78c6e5262b">
+					<printWhenExpression><![CDATA[$P{transporte}.equals( "S" )? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumCol4}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="465" y="0" width="45" height="10" uuid="229971e6-fa8a-4e8e-9568-1a75b96011da">
+					<printWhenExpression><![CDATA[$P{transporte}.equals( "S" )? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumCol5}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="285" y="0" width="45" height="10" uuid="a35a986e-55dc-4cb5-baff-22c4cd18ad81">
+					<printWhenExpression><![CDATA[$P{transporte}.equals( "S" )? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumCol1}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="375" y="0" width="45" height="10" uuid="334675ed-53d1-43c0-9aa2-67627b6de77a">
+					<printWhenExpression><![CDATA[$P{transporte}.equals( "S" )? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumCol3}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="330" y="0" width="45" height="10" uuid="fa15ef3a-651e-4b89-9c3b-595764ad4154">
+					<printWhenExpression><![CDATA[$P{transporte}.equals( "S" )? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{sumCol2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="0" width="315" height="10" uuid="6c828cf3-b9f8-4421-8a90-974f99eb120e">
+					<printWhenExpression><![CDATA[$P{transporte}.equals( "S" )? Boolean.TRUE : Boolean.FALSE]]></printWhenExpression>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="6" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Transporte]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="87" splitType="Prevent">
+			<subreport>
+				<reportElement stretchType="RelativeToBandHeight" x="0" y="0" width="555" height="63" uuid="e3e9d6a4-1d23-46c1-abc0-3b758f6501ce"/>
+				<subreportParameter name="serie">
+					<subreportParameterExpression><![CDATA[$P{serie}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="SUBREPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{SUBREPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="sucursal">
+					<subreportParameterExpression><![CDATA[$P{sucursal}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="empresa">
+					<subreportParameterExpression><![CDATA[$P{empresa}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechaFin">
+					<subreportParameterExpression><![CDATA[$P{fechaFin}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fechaIni">
+					<subreportParameterExpression><![CDATA[$P{fechaIni}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="mostrarResumen">
+					<subreportParameterExpression><![CDATA[$P{mostrarResumen}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "VtwLibroIvaVentaLey125_91_Retenciones_subreportNormal.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>
