@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CobCobrosResumen" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="71e1d64a-2676-48eb-a535-fca508a5bb1c">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Capital_adapter"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<parameter name="p_empresa_id" class="java.lang.Long"/>
+	<parameter name="p_usuario_id" class="java.lang.Long"/>
+	<parameter name="p_nro_habilitacion" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[SELECT 
+'FACTURA CONTADO' AS tipo_operacion,
+tv.cod_tipo || ' - ' || tv.descripcion AS tipo_valor, 
+val.nro_valor,
+TO_CHAR(val.fecha_valor,'DD/MM/YYYY') AS fecha_valor,
+COALESCE(TRIM(per.nombre_completo), tv.descripcion) AS banco_o_valor,
+ROUND(SUM(COALESCE(c.monto_total_factura,0)),2) AS tot_comprobante
+FROM ven_facturas_cabecera c
+JOIN cob_habilitaciones_cajas hab ON hab.id = c.cob_habilitacion_caja_id
+JOIN cob_cajas caj ON hab.bs_cajas_id = caj.id AND hab.bs_usuario_id = caj.bs_usuario_id AND caj.bs_empresa_id = c.bs_empresa_id
+JOIN bs_talonarios tal ON c.bs_talonario_id = tal.id
+JOIN bs_tipo_comprobantes tip ON tal.bs_tipo_comprobante_id = tip.id
+JOIN cob_cobros_valores val ON c.bs_empresa_id = val.bs_empresa_id AND c.id = val.id_comprobante
+JOIN bs_tipo_valor tv ON val.bs_empresa_id = tv.bs_empresa_id AND val.bs_tipo_valor_id = tv.id
+LEFT JOIN bs_persona per ON val.bs_persona_juridica::bigint = per.id::bigint
+WHERE c.bs_empresa_id = $P{p_empresa_id}
+AND caj.bs_usuario_id = $P{p_usuario_id}
+AND hab.nro_habilitacion = $P{p_nro_habilitacion}
+AND tip.cod_tip_comprobante = 'CON'
+GROUP BY 
+tv.cod_tipo || ' - ' || tv.descripcion, 
+val.nro_valor,
+TO_CHAR(val.fecha_valor,'DD/MM/YYYY'),
+COALESCE(TRIM(per.nombre_completo), tv.descripcion)
+UNION ALL
+SELECT 
+'RECIBO' AS tipo_operacion,
+tv.cod_tipo || ' - ' || tv.descripcion AS tipo_valor, 
+val.nro_valor,
+TO_CHAR(val.fecha_valor,'DD/MM/YYYY') AS fecha_valor,
+COALESCE(TRIM(per.nombre_completo), tv.descripcion) AS banco_o_valor,
+ROUND(SUM(COALESCE(c.monto_total_recibo,0)),2) AS tot_comprobante
+FROM cob_recibos_cabecera c
+JOIN cob_habilitaciones_cajas hab ON hab.id = c.cob_habilitacion_id
+JOIN cob_cajas caj ON hab.bs_cajas_id = caj.id AND hab.bs_usuario_id = caj.bs_usuario_id AND caj.bs_empresa_id = c.bs_empresa_id
+JOIN bs_talonarios tal ON c.bs_talonario_id = tal.id
+JOIN bs_tipo_comprobantes tip ON tal.bs_tipo_comprobante_id = tip.id
+JOIN cob_cobros_valores val ON c.bs_empresa_id = val.bs_empresa_id AND c.id = val.id_comprobante
+JOIN bs_tipo_valor tv ON val.bs_empresa_id = tv.bs_empresa_id AND val.bs_tipo_valor_id = tv.id
+LEFT JOIN bs_persona per ON val.bs_persona_juridica::bigint = per.id::bigint
+WHERE c.bs_empresa_id = $P{p_empresa_id}
+AND caj.bs_usuario_id = $P{p_usuario_id}
+AND hab.nro_habilitacion = $P{p_nro_habilitacion}
+AND tip.cod_tip_comprobante = 'REC'
+GROUP BY 
+tv.cod_tipo || ' - ' || tv.descripcion, 
+val.nro_valor,
+TO_CHAR(val.fecha_valor,'DD/MM/YYYY'),
+COALESCE(TRIM(per.nombre_completo), tv.descripcion)
+order by 1, 3 asc]]>
+	</queryString>
+	<field name="tipo_operacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_operacion"/>
+	</field>
+	<field name="tipo_valor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_valor"/>
+	</field>
+	<field name="nro_valor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nro_valor"/>
+	</field>
+	<field name="fecha_valor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fecha_valor"/>
+	</field>
+	<field name="banco_o_valor" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="banco_o_valor"/>
+	</field>
+	<field name="tot_comprobante" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="tot_comprobante"/>
+	</field>
+	<variable name="total_tipo_valor" class="java.math.BigDecimal" resetType="Group" resetGroup="tipo_valor" calculation="Sum">
+		<variableExpression><![CDATA[$F{tot_comprobante}]]></variableExpression>
+	</variable>
+	<group name="tipo_valor">
+		<groupExpression><![CDATA[$F{tipo_valor}]]></groupExpression>
+		<groupHeader>
+			<band height="23">
+				<textField>
+					<reportElement x="81" y="3" width="196" height="15" uuid="b803fc67-3b37-4066-aeeb-abb997ee7eae"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo_valor}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="11" y="3" width="68" height="14" uuid="686b9f9e-ab38-4e29-93fc-4e782f613ba6"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo Valor:]]></text>
+				</staticText>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="27">
+				<staticText>
+					<reportElement x="289" y="5" width="122" height="14" uuid="b54f15a6-5620-40a6-8be5-69405976820c"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total por Valor:]]></text>
+				</staticText>
+				<textField pattern="###,###,###.##">
+					<reportElement x="419" y="5" width="135" height="15" uuid="3c09e12b-f01e-4888-a9a0-32d8c29ba21c"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_tipo_valor}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="41" splitType="Stretch">
+			<staticText>
+				<reportElement x="130" y="8" width="300" height="21" forecolor="#333333" uuid="6a610c1e-cbf9-4b04-a343-d0ee73385891"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Resumen de Cobros por Habilitacion]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="35" splitType="Stretch">
+			<staticText>
+				<reportElement x="10" y="5" width="100" height="19" uuid="c9dfe167-7df8-40d6-87b1-b4332d119af9">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e7778a92-55a7-4c4f-8a16-43be952b6ff3"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Operacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="5" width="100" height="19" uuid="a7785358-9faf-486f-8070-0ae955f42b3b">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="07ea37d7-cbd3-45ab-ba53-709499df1200"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="223" y="6" width="100" height="19" uuid="a227039d-4291-4671-b9ef-9a88f9d8bd29">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0bdd3205-866b-4647-bbef-b141a06a7a8c"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[nro. Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="330" y="6" width="100" height="19" uuid="e853fdba-e302-454b-9d0a-904a66d9e3e1">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f8e70ad7-91d3-4cb4-9098-c279c9df2135"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripcion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="454" y="6" width="100" height="19" uuid="f8ec5a74-004b-439a-a199-87c753565bf8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="420a5c0b-fc1f-402d-b420-c53a6559d440"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total del Valor]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="10" y="6" width="100" height="19" uuid="0af10267-81e7-4450-9725-5e33035b5319">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="e7778a92-55a7-4c4f-8a16-43be952b6ff3"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{tipo_operacion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="7" width="100" height="18" uuid="05ebc3a9-3c6f-4c9d-b7bb-4c33baff0a68">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="07ea37d7-cbd3-45ab-ba53-709499df1200"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{fecha_valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="223" y="7" width="100" height="18" uuid="53323d13-b035-49b1-b17d-c0324d0a90f8">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0bdd3205-866b-4647-bbef-b141a06a7a8c"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{nro_valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="330" y="7" width="123" height="18" uuid="b2d41c5f-fdef-4dc1-b89b-a280d0b77f65">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f8e70ad7-91d3-4cb4-9098-c279c9df2135"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{banco_o_valor}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###.##">
+				<reportElement x="454" y="6" width="100" height="19" uuid="f2257a13-d66f-4d4d-983f-348408059cc6">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="420a5c0b-fc1f-402d-b420-c53a6559d440"/>
+				</reportElement>
+				<textElement textAlignment="Left"/>
+				<textFieldExpression><![CDATA[$F{tot_comprobante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

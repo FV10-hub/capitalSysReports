@@ -58,13 +58,6 @@
 				</textElement>
 				<text><![CDATA[EN GUARANIES]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="0" y="0" width="100" height="18" uuid="c921d91a-428f-4390-b7de-5661050b34e6"/>
-				<textElement>
-					<font isBold="true"/>
-				</textElement>
-				<text><![CDATA[EJEMPLLO]]></text>
-			</staticText>
 		</band>
 	</title>
 	<detail>

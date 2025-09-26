@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CreProformaCredito" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="533" leftMargin="34" rightMargin="28" topMargin="42" bottomMargin="42" isSummaryWithPageHeaderAndFooter="true" uuid="ce99e0a5-2b9f-4376-af81-632409c15bd8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Capital_adapter"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="imagenPath" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\imagenes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="impresoPor" class="java.lang.String"/>
+	<parameter name="DiaHora" class="java.lang.String"/>
+	<parameter name="nombreImagen" class="java.lang.String"/>
+	<parameter name="p_empresa_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="descEmpresa" class="java.lang.String"/>
+	<parameter name="p_desembolso_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select bp.documento,
+bp.nombre_completo nombre,
+to_char(c.fecha_desembolso,'DD/MM/YYYY') fec_comprobante,
+c.nro_desembolso,
+'( '|| ta.cod_tipo||' ) ' || ta.descripcion tipo_amortizacion,
+round(coalesce(c.monto_total_credito ,0),2) tot_comprobante,
+d.nro_cuota, 
+to_char(d.fecha_vencimiento,'DD/MM/YYYY') fec_vencimiento,
+round(coalesce(d.monto_capital, 0), 2) monto_capital,
+round(coalesce(d.monto_interes, 0), 2) monto_interes,
+round(coalesce(d.monto_iva, 0), 2) monto_iva,
+round(coalesce(d.monto_cuota, 0), 2) monto_cuota
+from cre_desembolso_cabecera c, 
+cre_desembolso_detalle d,
+cre_solicitudes_creditos sc,
+cre_tipo_amortizaciones ta,
+cob_clientes cl,
+bs_persona bp
+where c.bs_empresa_id = $P{p_empresa_id} 
+and c.id = $P{p_desembolso_id}
+and c.id = d.cre_desembolso_cabecera_id  
+and c.bs_empresa_id = cl.bs_empresa_id
+and c.bs_empresa_id = sc.bs_empresa_id 
+and c.cre_solicitud_credito_id = sc.id
+and c.cre_tipo_amortizacion_id = ta.id 
+and sc.cob_cliente_id = cl.id
+and cl.id_bs_persona = bp.id
+
+
+]]>
+	</queryString>
+	<field name="documento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="documento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_persona"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_persona"/>
+	</field>
+	<field name="fec_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_comprobante"/>
+	</field>
+	<field name="nro_desembolso" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="nro_desembolso"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cre_desembolso_cabecera"/>
+	</field>
+	<field name="tipo_amortizacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_amortizacion"/>
+	</field>
+	<field name="tot_comprobante" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="tot_comprobante"/>
+	</field>
+	<field name="nro_cuota" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_cuota"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="cre_desembolso_detalle"/>
+	</field>
+	<field name="fec_vencimiento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_vencimiento"/>
+	</field>
+	<field name="monto_capital" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="monto_capital"/>
+	</field>
+	<field name="monto_interes" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="monto_interes"/>
+	</field>
+	<field name="monto_iva" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="monto_iva"/>
+	</field>
+	<field name="monto_cuota" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="monto_cuota"/>
+	</field>
+	<variable name="total_capital" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_capital}]]></variableExpression>
+	</variable>
+	<variable name="total_interes" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_interes}]]></variableExpression>
+	</variable>
+	<variable name="total_iva" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_iva}]]></variableExpression>
+	</variable>
+	<variable name="total_cuota" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_cuota}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="192" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="71" width="533" height="1" uuid="96abc3ba-e5e1-445c-ac62-1c9486a1881d"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="SubTitle" x="111" y="47" width="300" height="21" forecolor="#333333" uuid="29dc677c-828e-4c36-9fd2-8b800920bd8d"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Proforma de Crédito]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Column header" x="411" y="5" width="80" height="20" forecolor="#000000" uuid="371423dc-1a87-4899-8c32-15f6f3f41d5f"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="491" y="5" width="40" height="20" forecolor="#000000" uuid="0dd9810d-3560-4c20-8db0-327fe8b9c856"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="5" width="100" height="16" forecolor="#000000" uuid="71239370-f380-425d-a780-2ed9e875d5ef"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DiaHora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="21" width="100" height="17" forecolor="#000000" uuid="a47ed03e-5ebc-488c-b0d8-fbb82d50d13c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{impresoPor}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="228" y="0" width="100" height="47" uuid="2e959686-fabb-42e5-9cff-9c8e8682ca7e"/>
+				<imageExpression><![CDATA[$P{imagenPath}+$P{nombreImagen}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" x="4" y="21" width="72" height="17" forecolor="#000000" uuid="61cb259e-0dde-4b4c-8ea3-02c5e34bfca6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Impreso por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="4" y="5" width="72" height="16" forecolor="#000000" uuid="4e599f05-49c6-4e2d-8c97-b9e5318a638a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="77" width="77" height="14" uuid="81a45957-00c0-49b8-8c62-670a43b43485"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cliente:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="77" width="225" height="14" uuid="77e54838-4afb-4645-8fce-3a6cf80c595d"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="15" y="93" width="77" height="14" uuid="6a9c0a0c-d61f-4991-8b12-34e3dd7a099f"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="93" width="225" height="14" uuid="681a456e-ae2d-4010-828f-60804bf59f0e"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="110" width="227" height="14" uuid="ccebda07-7f63-4764-980c-3bbf0cec93c8"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fec_comprobante}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-22" y="110" width="114" height="14" uuid="55f77c76-ea9c-42d6-9e61-8853e4ac0ce9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-21" y="130" width="114" height="14" uuid="2b16ddd3-0129-4793-99fb-66537bfb2cfb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Desembolso:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="130" width="227" height="14" uuid="dbe9c0e5-b067-456e-97fb-b6410aea3067"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_desembolso}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-21" y="150" width="114" height="14" uuid="7510e883-66a3-4277-bd58-1a61ed06d8b1"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo Amortizacion:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="103" y="150" width="227" height="14" uuid="1a7ef2cf-bbd7-4d9f-b251-0e12b91b8500"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tipo_amortizacion}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="-21" y="170" width="114" height="14" uuid="708dfc87-402c-4824-a0fc-f640b3b2cf1d"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Crédito:]]></text>
+			</staticText>
+			<textField pattern="###,###,###">
+				<reportElement x="103" y="170" width="227" height="14" uuid="b20bbda7-7779-44c5-a099-44e89fa832f7"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tot_comprobante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22">
+			<staticText>
+				<reportElement x="5" y="3" width="45" height="14" uuid="a5c07763-61cf-40ff-8de9-d2f503d8df34"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Cuota]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="18" width="533" height="1" uuid="bb346d14-3d5f-45cc-a983-343b3c2bf89b"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="62" y="3" width="73" height="14" uuid="a9173d59-e790-42f5-8f1f-d6ade0f386c2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha Vencimiento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="3" width="73" height="14" uuid="7ccd0861-a563-4239-86f5-fa7bad0f8241"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Capital]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="3" width="73" height="14" uuid="eeef4994-0985-463b-a414-f22b54699c29"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Interes]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="320" y="3" width="73" height="14" uuid="8bacc500-367f-4c36-bceb-c09a2a7dc65f"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Iva]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="405" y="3" width="73" height="14" uuid="e9669f35-185f-4477-b378-30c5abce45fd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto cuota]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="4" width="50" height="15" uuid="4ad6f857-b2e3-45b4-b50e-311a21ecf965"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_cuota}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="4" width="72" height="15" uuid="39f324b7-06f2-4ae6-8408-193d517cf902"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fec_vencimiento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="4" width="72" height="15" uuid="70cd2535-3072-495a-9f34-985d7dd895a8"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_capital}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="237" y="5" width="70" height="15" uuid="30d41afc-fa2d-45fe-af2b-07d431137241"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_interes}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="320" y="5" width="70" height="15" uuid="cbdcaeef-817b-4de5-af1f-3591b1e04412"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_iva}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="405" y="5" width="70" height="15" uuid="4195250a-7eb9-4290-91b2-e4059fd1c3d4"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_cuota}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="30">
+			<staticText>
+				<reportElement x="62" y="4" width="72" height="14" uuid="cabeb90f-b178-4ab7-a036-13f22bb9981f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Totales:]]></text>
+			</staticText>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="150" y="4" width="72" height="14" uuid="9d1f78a9-5b5a-4833-8f0d-d8bfb3e2c6f5"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_capital}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="235" y="4" width="72" height="14" uuid="21086a59-c2d7-424a-9b99-80c28dd6a782"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_interes}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="319" y="4" width="72" height="14" uuid="0e5d7c56-4a63-4022-aa7a-e0cc1dbde119"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_iva}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="404" y="4" width="72" height="14" uuid="5d20d3c8-9c81-46b4-9948-16ed637de18e"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_cuota}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CobRendicionCaja" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="533" leftMargin="34" rightMargin="28" topMargin="42" bottomMargin="42" isSummaryWithPageHeaderAndFooter="true" uuid="ce99e0a5-2b9f-4376-af81-632409c15bd8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Capital_adapter"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="imagenPath" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\reportes\\imagenes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="impresoPor" class="java.lang.String">
+		<defaultValueExpression><![CDATA["fer"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DiaHora" class="java.lang.String">
+		<defaultValueExpression><![CDATA["10:10"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombreImagen" class="java.lang.String">
+		<defaultValueExpression><![CDATA["empresa.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_empresa_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="descEmpresa" class="java.lang.String"/>
+	<parameter name="p_nro_op" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="subreport_dir" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\reportes\\subreport\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_fecha" class="java.lang.String">
+		<defaultValueExpression><![CDATA["de al"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_pago_id" class="java.lang.Long"/>
+	<queryString>
+		<![CDATA[select 
+bp.nombre_completo beneficiario,
+bp.documento,
+c.tipo_operacion,
+cre.nro_desembolso::text nro_comprobante,
+to_char(c.fecha_pago,'DD/MM/YYYY') fec_comprobante,
+1 nro_cuota,
+c.monto_total_pago monto_comprobante
+from tes_pagos_cabecera c,
+tes_pago_comprobante_detalle d,
+cre_desembolso_cabecera cre,
+cre_solicitudes_creditos sol,
+cob_clientes cc,
+bs_persona bp
+where c.bs_empresa_id = $P{p_empresa_id}
+and c.id =  $P{p_pago_id}
+and c.id = d.tes_pagos_cabecera_id 
+and c.bs_empresa_id = cc.bs_empresa_id
+and c.id_beneficiario = cc.id
+and cc.id_bs_persona = bp.id
+and cc.bs_empresa_id = cre.bs_empresa_id 
+and cre.cre_solicitud_credito_id = sol.id 
+and sol.cob_cliente_id = cc.id
+and d.id_cuota_saldo = cre.id
+and c.tipo_operacion = 'DESEMBOLSO'
+union all
+select 
+bp.nombre_completo nombre,
+bp.documento,
+c.tipo_operacion,
+cs.nro_comprobante_completo,
+to_char(c.fecha_pago,'DD/MM/YYYY') fec_comprobante,
+cs.nro_cuota,
+c.monto_total_pago
+from tes_pagos_cabecera c,
+tes_pago_comprobante_detalle d,
+com_proveedores cc,
+bs_persona bp,
+com_saldos cs 
+where c.bs_empresa_id = $P{p_empresa_id} 
+and c.id =  $P{p_pago_id}
+and c.id = d.tes_pagos_cabecera_id 
+and c.bs_empresa_id = cc.bs_empresa_id 
+and c.id_beneficiario = cc.id
+and cc.bs_persona_id = bp.id 
+and c.tipo_operacion = 'FACTURA'
+and c.bs_empresa_id = cs.bs_empresa_id
+and cc.id = cs.com_proveedor_id
+and d.id_cuota_saldo = cs.id ]]>
+	</queryString>
+	<field name="beneficiario" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="beneficiario"/>
+	</field>
+	<field name="documento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="documento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_persona"/>
+	</field>
+	<field name="tipo_operacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_operacion"/>
+	</field>
+	<field name="nro_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nro_comprobante"/>
+	</field>
+	<field name="fec_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_comprobante"/>
+	</field>
+	<field name="nro_cuota" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="nro_cuota"/>
+	</field>
+	<field name="monto_comprobante" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="monto_comprobante"/>
+	</field>
+	<variable name="total_comprobante" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{monto_comprobante}]]></variableExpression>
+	</variable>
+	<pageHeader>
+		<band height="107" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="71" width="533" height="1" uuid="96abc3ba-e5e1-445c-ac62-1c9486a1881d"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="SubTitle" x="111" y="47" width="300" height="21" forecolor="#333333" uuid="29dc677c-828e-4c36-9fd2-8b800920bd8d"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle de Orden de Pago]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Column header" x="411" y="5" width="80" height="20" forecolor="#000000" uuid="371423dc-1a87-4899-8c32-15f6f3f41d5f"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="491" y="5" width="40" height="20" forecolor="#000000" uuid="0dd9810d-3560-4c20-8db0-327fe8b9c856"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="5" width="100" height="16" forecolor="#000000" uuid="71239370-f380-425d-a780-2ed9e875d5ef"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DiaHora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="21" width="100" height="17" forecolor="#000000" uuid="a47ed03e-5ebc-488c-b0d8-fbb82d50d13c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{impresoPor}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="228" y="0" width="100" height="47" uuid="2e959686-fabb-42e5-9cff-9c8e8682ca7e"/>
+				<imageExpression><![CDATA[$P{imagenPath}+$P{nombreImagen}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" x="4" y="21" width="72" height="17" forecolor="#000000" uuid="61cb259e-0dde-4b4c-8ea3-02c5e34bfca6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Impreso por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="4" y="5" width="72" height="16" forecolor="#000000" uuid="4e599f05-49c6-4e2d-8c97-b9e5318a638a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="75" width="72" height="14" uuid="55f77c76-ea9c-42d6-9e61-8853e4ac0ce9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="92" width="72" height="14" uuid="2b16ddd3-0129-4793-99fb-66537bfb2cfb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Op:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="93" width="90" height="12" uuid="70e7ad87-8d6d-44bf-a64a-2ec9b8d04dd4"/>
+				<textElement markup="styled">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{p_nro_op}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="76" width="126" height="12" uuid="53fd87f7-2b7e-45b5-99ce-58330602887b"/>
+				<textElement markup="styled">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{p_fecha}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="42">
+			<staticText>
+				<reportElement x="5" y="25" width="45" height="14" uuid="a5c07763-61cf-40ff-8de9-d2f503d8df34"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="40" width="533" height="1" uuid="bb346d14-3d5f-45cc-a983-343b3c2bf89b"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="295" y="25" width="73" height="14" uuid="a9173d59-e790-42f5-8f1f-d6ade0f386c2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="25" width="73" height="14" uuid="7ccd0861-a563-4239-86f5-fa7bad0f8241"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="25" width="73" height="14" uuid="eeef4994-0985-463b-a414-f22b54699c29"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="392" y="25" width="73" height="14" uuid="e9669f35-185f-4477-b378-30c5abce45fd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="4" width="77" height="14" uuid="70915902-38ed-4e3b-9042-69b1598e5c60"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comprobantes]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="4" width="107" height="15" uuid="4ad6f857-b2e3-45b4-b50e-311a21ecf965"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{beneficiario}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="4" width="72" height="15" uuid="39f324b7-06f2-4ae6-8408-193d517cf902"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_comprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="4" width="79" height="15" uuid="70cd2535-3072-495a-9f34-985d7dd895a8"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="4" width="79" height="15" uuid="30d41afc-fa2d-45fe-af2b-07d431137241"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fec_comprobante}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###,###">
+				<reportElement x="393" y="4" width="70" height="15" uuid="4195250a-7eb9-4290-91b2-e4059fd1c3d4"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{monto_comprobante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="75">
+			<subreport>
+				<reportElement x="0" y="40" width="533" height="29" uuid="26dbaf8a-c3d1-42b9-954a-e9d93af52d9a"/>
+				<subreportParameter name="p_empresa_id">
+					<subreportParameterExpression><![CDATA[$P{p_empresa_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_pago_id">
+					<subreportParameterExpression><![CDATA[$P{p_pago_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{subreport_dir} + "TesOrdenPagoResumen.jasper"]]></subreportExpression>
+			</subreport>
+			<line>
+				<reportElement x="0" y="36" width="533" height="1" uuid="5b92e5e6-5f43-41f8-a150-fab421dbabf8"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="270" y="6" width="113" height="14" uuid="59e4b8b5-dbe2-4323-a380-21eaf6654abf"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Comprobantes:]]></text>
+			</staticText>
+			<textField pattern="###,###,###" isBlankWhenNull="true">
+				<reportElement x="392" y="7" width="90" height="12" uuid="4c923206-fb1b-4cb6-99f8-691fd8db2815"/>
+				<textElement markup="styled">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_comprobante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

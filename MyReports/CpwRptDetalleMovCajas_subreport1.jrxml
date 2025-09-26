@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CpwRptDetalleMovCajas_subreport1" pageWidth="595" pageHeight="842" whenNoDataType="NoPages" columnWidth="535" leftMargin="0" rightMargin="60" topMargin="0" bottomMargin="0" uuid="2ab20e01-935f-4352-843a-7df581588149">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="id_caja" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id_moneda" class="java.math.BigDecimal">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT UPPER(STT.Subtipo_Trans) SUBTIPO_TRANS,
+       UPPER(STT.DESCRIPCION) DESC_SUBTIP,
+       DECODE(NVL(CB.IND_CAJA_INTERNA,'N'),'N',UPPER(PB.NOMBRE),CB.REFERENCIA) BANCO,
+       UPPER(CB.NRO_CUENTA) CUENTA_BANCARIA,
+       UPPER(VAL.SER_VALOR) SER_VALOR,
+       UPPER(VAL.NUM_VALOR) NUM_VALOR,
+       ROUND(VAL.IMPORTE_CAMBIO, NVL(MON.DECIMALES, 0)) MONTO_TOT,
+       UPPER(VAL.NRO_CTA_PROV)||' '||UPPER(PBD.NOMBRE) CUENTA_DESTINO
+  FROM CPW_CABECERA_CAJAS        CAB,
+       BSW_MONEDAS               MON,
+       CPW_VALORES_CAJAS         VAL,
+       BSW_SUBTIPOS_TRANS        STT,
+       BSW_MODULOS               MO,
+       CCW_CUENTAS_BANCARIAS     CB,
+       BSW_PERSONAS              PB,
+       BSW_PERSONAS              PBD
+ WHERE CAB.ID= $P{id_caja}
+   AND MON.ID= $P{id_moneda}
+   AND CAB.ID_MONEDA = MON.ID
+   AND VAL.ID_CAB_CAJAS = CAB.ID
+   AND VAL.ID_SUB_TIPO_TRANS = STT.ID
+   AND MO.COD_MODULO='CP'
+   AND STT.ID_MODULO = MO.ID
+   AND VAL.ID_CUENTA = CB.ID(+)
+   AND VAL.ID_BANCO = PB.ID(+)
+   AND VAL.ID_ENTIDAD_DESTINO = PBD.ID(+)]]>
+	</queryString>
+	<field name="SUBTIPO_TRANS" class="java.lang.String"/>
+	<field name="DESC_SUBTIP" class="java.lang.String"/>
+	<field name="BANCO" class="java.lang.String"/>
+	<field name="CUENTA_BANCARIA" class="java.lang.String"/>
+	<field name="SER_VALOR" class="java.lang.String"/>
+	<field name="NUM_VALOR" class="java.lang.String"/>
+	<field name="MONTO_TOT" class="java.math.BigDecimal"/>
+	<field name="CUENTA_DESTINO" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="12">
+			<staticText>
+				<reportElement x="0" y="0" width="110" height="12" uuid="737b264c-6ba1-4595-9cdf-9ce99bc93098"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Forma Pago]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="110" y="0" width="180" height="12" uuid="1a81b41e-2479-41c1-ba2b-1468a918085a"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banco]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="80" height="12" uuid="71221c0c-a577-4c3c-bf8e-243d82a91520"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cuenta]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="40" height="12" uuid="f0a91d62-9e58-405b-83dc-3314b71451cb"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Serie]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="410" y="0" width="50" height="12" uuid="59701d9b-0212-44c4-95cb-78472896b0d9"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="460" y="0" width="75" height="12" uuid="d6fabe79-49cd-44a4-ac99-b6e9eef00477"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="0" y="0" width="110" height="12" uuid="10c6c07f-eb43-46ea-8f4b-d62f857ba5ae"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["(" + $F{SUBTIPO_TRANS} + ") " + $F{DESC_SUBTIP}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="110" y="0" width="180" height="12" uuid="43ad3e97-503b-450b-95e7-8dc2828e9ac6"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{BANCO}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="290" y="0" width="80" height="12" uuid="21deedac-93b4-41c3-b9aa-324ece3e36e1"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{CUENTA_BANCARIA}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="370" y="0" width="40" height="12" uuid="fb787bd5-aeea-45b0-92e9-36604328117e"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SER_VALOR}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="410" y="0" width="50" height="12" uuid="447e3470-87a6-41c2-8fe1-53b381008f9a"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{NUM_VALOR}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###,###.##" isBlankWhenNull="true">
+				<reportElement x="460" y="0" width="75" height="12" uuid="46c81f5a-850f-4cd9-a6c3-8c0339edd50d"/>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement textAlignment="Right">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{MONTO_TOT}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement x="290" y="12" width="245" height="12" isRemoveLineWhenBlank="true" uuid="3677a3b7-0350-4ae1-adc1-4c1af6a15358">
+					<printWhenExpression><![CDATA[!$F{CUENTA_DESTINO}.trim().isEmpty()]]></printWhenExpression>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement markup="styled">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA["<b>Cuenta Proveedor:</b> " + $F{CUENTA_DESTINO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

@@ -7,7 +7,7 @@
 	<property name="ireport.y" value="0"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.report.description" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Tesis_2023"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Capital_adapter"/>
 	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
@@ -34,6 +34,7 @@
 bp.nombre_completo nom_cliente,
 to_char(c.fecha_desembolso,'DD/MM/YYYY') fec_comprobante,
 c.nro_desembolso nro_comprobante,
+case when c.ind_desembolsado = 'S' then 'SI' else 'NO' end as desembolsado,
 round(coalesce(c.monto_total_capital,0),2) tot_capital,
 round(coalesce(c.monto_total_interes,0),2) tot_interes,
 round(coalesce(c.monto_total_iva,0),2) tot_iva,
@@ -56,6 +57,7 @@ group by bp.documento,
 bp.nombre_completo,
 to_char(c.fecha_desembolso,'DD/MM/YYYY'),
 c.nro_desembolso,
+case when c.ind_desembolsado = 'S' then 'SI' else 'NO' end,
 round(coalesce(c.monto_total_capital,0),2),
 round(coalesce(c.monto_total_interes,0),2),
 round(coalesce(c.monto_total_iva,0),2),
@@ -80,6 +82,9 @@ order by 3 asc]]>
 		<property name="com.jaspersoft.studio.field.label" value="nro_comprobante"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="cre_desembolso_cabecera"/>
 		<property name="com.jaspersoft.studio.field.name" value="nro_comprobante"/>
+	</field>
+	<field name="desembolsado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="desembolsado"/>
 	</field>
 	<field name="tot_capital" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="tot_capital"/>
@@ -228,7 +233,7 @@ order by 3 asc]]>
 				</graphicElement>
 			</line>
 			<staticText>
-				<reportElement x="242" y="9" width="112" height="18" uuid="180fcbf6-4ea5-4f10-850f-7e2adafc9541">
+				<reportElement x="240" y="9" width="98" height="18" uuid="180fcbf6-4ea5-4f10-850f-7e2adafc9541">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
@@ -238,14 +243,14 @@ order by 3 asc]]>
 				<text><![CDATA[Fecha Comprobante]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="358" y="10" width="107" height="16" uuid="6115d211-5452-41d4-90ff-411ce65a975d">
+				<reportElement x="338" y="10" width="70" height="16" uuid="6115d211-5452-41d4-90ff-411ce65a975d">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Numero Comprobante]]></text>
+				<text><![CDATA[Numero]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="720" y="5" width="72" height="27" uuid="090b55f4-c0c5-441a-a168-eafd1910a671">
@@ -284,6 +289,16 @@ Comprobante]]></text>
 				</textElement>
 				<text><![CDATA[Total Iva]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="409" y="10" width="70" height="16" uuid="6184958b-e18e-4f81-9b33-c24a309564a4">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Desembolsado?]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
@@ -303,14 +318,14 @@ Comprobante]]></text>
 				<textFieldExpression><![CDATA[$F{nom_cliente}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="242" y="3" width="111" height="14" uuid="7097d791-c4e8-4f51-932f-749316d56d6c"/>
+				<reportElement x="240" y="3" width="98" height="14" uuid="7097d791-c4e8-4f51-932f-749316d56d6c"/>
 				<textElement textAlignment="Left">
 					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{fec_comprobante}]]></textFieldExpression>
 			</textField>
 			<textField textAdjust="StretchHeight">
-				<reportElement stretchType="ElementGroupHeight" x="358" y="3" width="114" height="14" uuid="01db5f90-d566-4f11-9d82-0d83f220edaf"/>
+				<reportElement stretchType="ElementGroupHeight" x="338" y="3" width="71" height="14" uuid="01db5f90-d566-4f11-9d82-0d83f220edaf"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="SansSerif"/>
 				</textElement>
@@ -343,6 +358,13 @@ Comprobante]]></text>
 					<font fontName="SansSerif"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tot_iva}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight">
+				<reportElement stretchType="ElementGroupHeight" x="412" y="4" width="47" height="14" uuid="9f387039-8d74-4464-9fd5-1199d6e90c0c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="SansSerif"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{desembolsado}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.12.0.final using JasperReports Library version 6.12.1-ac0eebdb29e4c0985457bab279a6db744d661530  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CobRendicionCaja" pageWidth="595" pageHeight="842" whenNoDataType="BlankPage" columnWidth="533" leftMargin="34" rightMargin="28" topMargin="42" bottomMargin="42" isSummaryWithPageHeaderAndFooter="true" uuid="ce99e0a5-2b9f-4376-af81-632409c15bd8">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Capital_adapter"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.report.description" value=""/>
+	<style name="Title" fontName="Arial" fontSize="26" isBold="true" pdfFontName="Helvetica-Bold"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
+	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12"/>
+	<parameter name="imagenPath" class="java.lang.String">
+		<defaultValueExpression><![CDATA["D:\\reportes\\imagenes\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="impresoPor" class="java.lang.String">
+		<defaultValueExpression><![CDATA["fer"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DiaHora" class="java.lang.String">
+		<defaultValueExpression><![CDATA["10:10"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="nombreImagen" class="java.lang.String">
+		<defaultValueExpression><![CDATA["empresa.png"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_empresa_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="descEmpresa" class="java.lang.String"/>
+	<parameter name="p_usuario_id" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_nro_habilitacion" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[null]]></defaultValueExpression>
+	</parameter>
+	<parameter name="subreport_dir" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\reportes\\subreport\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_usuario" class="java.lang.String">
+		<defaultValueExpression><![CDATA["rmoreno"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="p_periodo" class="java.lang.String">
+		<defaultValueExpression><![CDATA["de al"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 
+'VENTAS' tipo_operacion,
+tip.descripcion tip_comprobante,
+bp.documento,
+bp.nombre_completo nombre,
+to_char(c.fecha_factura,'DD/MM/YYYY') fec_comprobante,
+c.nro_factura_completo  nro_comprobante,
+round(coalesce(c.monto_total_factura,0),2) tot_comprobante
+from ven_facturas_cabecera c, 
+ven_facturas_detalles d, 
+cob_clientes cl,
+bs_persona bp,
+cob_habilitaciones_cajas hab,
+cob_cajas caj,
+bs_talonarios tal,
+bs_tipo_comprobantes tip
+where c.bs_empresa_id = $P{p_empresa_id}
+and caj.bs_usuario_id  = $P{p_usuario_id}
+and hab.nro_habilitacion = $P{p_nro_habilitacion}
+and c.id = d.ven_facturas_cabecera_id 
+and c.bs_empresa_id = cl.bs_empresa_id 
+and c.cob_cliente_id = cl.id
+and cl.id_bs_persona = bp.id
+and caj.bs_empresa_id = c.bs_empresa_id 
+and hab.bs_cajas_id = caj.id 
+and hab.bs_usuario_id = caj.bs_usuario_id 
+and hab.id = c.cob_habilitacion_caja_id 
+and c.bs_talonario_id = tal.id 
+and tal.bs_tipo_comprobante_id = tip.id 
+group by 
+tip.descripcion,
+bp.documento,
+d.cod_iva,
+bp.nombre_completo,
+to_char(c.fecha_factura,'DD/MM/YYYY'),
+c.nro_factura_completo,
+round(coalesce(c.monto_total_factura,0),2)
+union all
+select 
+'RECIBO' tipo_operacion,
+tip.descripcion tip_comprobante,
+bp.documento,
+bp.nombre_completo nombre,
+to_char(c.fecha_recibo,'DD/MM/YYYY') fec_comprobante,
+c.nro_recibo_completo nro_comprobante,
+round(coalesce(c.monto_total_recibo,0),2) tot_comprobante
+from cob_recibos_cabecera c, 
+cob_recibos_detalle d, 
+cob_clientes cl,
+bs_persona bp,
+cob_habilitaciones_cajas hab,
+cob_cajas caj,
+bs_talonarios tal,
+bs_tipo_comprobantes tip
+where c.bs_empresa_id = $P{p_empresa_id}
+and caj.bs_usuario_id  = $P{p_usuario_id}
+and hab.nro_habilitacion = $P{p_nro_habilitacion}
+and c.id = d.cob_recibos_cabecera_id 
+and c.bs_empresa_id = cl.bs_empresa_id 
+and c.cob_cliente_id = cl.id
+and cl.id_bs_persona = bp.id
+and caj.bs_empresa_id = c.bs_empresa_id 
+and hab.bs_cajas_id = caj.id 
+and hab.bs_usuario_id = caj.bs_usuario_id 
+and hab.id = c.cob_habilitacion_id  
+and c.bs_talonario_id = tal.id 
+and tal.bs_tipo_comprobante_id = tip.id 
+group by
+tip.descripcion,
+bp.documento,
+bp.nombre_completo,
+to_char(c.fecha_recibo,'DD/MM/YYYY'),
+c.nro_recibo_completo,
+round(coalesce(c.monto_total_recibo,0),2)
+order by 1, 5 asc]]>
+	</queryString>
+	<field name="tipo_operacion" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tipo_operacion"/>
+	</field>
+	<field name="tip_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="tip_comprobante"/>
+	</field>
+	<field name="documento" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="documento"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_persona"/>
+	</field>
+	<field name="nombre" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nombre"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="bs_persona"/>
+	</field>
+	<field name="fec_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="fec_comprobante"/>
+	</field>
+	<field name="nro_comprobante" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nro_comprobante"/>
+	</field>
+	<field name="tot_comprobante" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="tot_comprobante"/>
+	</field>
+	<variable name="total_comprobante" class="java.math.BigDecimal" resetType="Group" resetGroup="tip_comprobante" calculation="Sum">
+		<variableExpression><![CDATA[$F{tot_comprobante}]]></variableExpression>
+	</variable>
+	<variable name="total_comprobante_operacion" class="java.math.BigDecimal" resetType="Group" resetGroup="tipo_operacion" calculation="Sum">
+		<variableExpression><![CDATA[$F{tot_comprobante}]]></variableExpression>
+	</variable>
+	<group name="tipo_operacion">
+		<groupExpression><![CDATA[$F{tipo_operacion}]]></groupExpression>
+		<groupHeader>
+			<band height="24">
+				<staticText>
+					<reportElement x="-2" y="3" width="94" height="14" uuid="22cc9970-b5d4-4e6a-8da5-392d83f67b44"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo Operacion:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="100" y="3" width="135" height="15" uuid="eeab8eac-d09c-4200-b7e2-6a56f6fe382c"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tipo_operacion}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="29">
+				<staticText>
+					<reportElement x="198" y="6" width="122" height="14" uuid="71b2474b-a89d-42e2-9eef-90283bb83a62"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Operacion:]]></text>
+				</staticText>
+				<textField pattern="###,###,###.##">
+					<reportElement x="328" y="6" width="135" height="15" uuid="c92e4f38-3be2-41b0-bb4d-1cb4fa0cc50a"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_comprobante_operacion}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<group name="tip_comprobante">
+		<groupExpression><![CDATA[$F{tip_comprobante}]]></groupExpression>
+		<groupHeader>
+			<band height="27">
+				<staticText>
+					<reportElement x="0" y="6" width="94" height="14" uuid="0c7c6430-f236-4cc7-ae68-854fc88fd0ca"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Tipo Comprobante:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="102" y="6" width="135" height="15" uuid="c66ee65a-c068-4cc2-ae7d-ebd1971390e2"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{tip_comprobante}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="28">
+				<staticText>
+					<reportElement x="200" y="7" width="122" height="14" uuid="5c4e5553-ec4d-4bc4-9df4-85ce8ed60f42"/>
+					<textElement textAlignment="Right">
+						<font fontName="Arial" size="10" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total Comprobante:]]></text>
+				</staticText>
+				<textField pattern="###,###,###.##">
+					<reportElement x="330" y="7" width="135" height="15" uuid="5871abdc-bbf9-44bb-b0d2-9734d4991930"/>
+					<textElement>
+						<font size="10" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_comprobante}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<pageHeader>
+		<band height="136" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="71" width="533" height="1" uuid="96abc3ba-e5e1-445c-ac62-1c9486a1881d"/>
+				<graphicElement>
+					<pen lineWidth="1.5"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement style="SubTitle" x="111" y="47" width="300" height="21" forecolor="#333333" uuid="29dc677c-828e-4c36-9fd2-8b800920bd8d"/>
+				<textElement textAlignment="Center">
+					<font size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalle de Rendicion de Cajas]]></text>
+			</staticText>
+			<textField>
+				<reportElement style="Column header" x="411" y="5" width="80" height="20" forecolor="#000000" uuid="371423dc-1a87-4899-8c32-15f6f3f41d5f"/>
+				<textElement textAlignment="Right">
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Pag. "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement style="Column header" x="491" y="5" width="40" height="20" forecolor="#000000" uuid="0dd9810d-3560-4c20-8db0-327fe8b9c856"/>
+				<textElement>
+					<font size="10" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="5" width="100" height="16" forecolor="#000000" uuid="71239370-f380-425d-a780-2ed9e875d5ef"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{DiaHora}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="76" y="21" width="100" height="17" forecolor="#000000" uuid="a47ed03e-5ebc-488c-b0d8-fbb82d50d13c"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{impresoPor}]]></textFieldExpression>
+			</textField>
+			<image>
+				<reportElement x="228" y="0" width="100" height="47" uuid="2e959686-fabb-42e5-9cff-9c8e8682ca7e"/>
+				<imageExpression><![CDATA[$P{imagenPath}+$P{nombreImagen}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement style="Column header" x="4" y="21" width="72" height="17" forecolor="#000000" uuid="61cb259e-0dde-4b4c-8ea3-02c5e34bfca6"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[Impreso por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="4" y="5" width="72" height="16" forecolor="#000000" uuid="4e599f05-49c6-4e2d-8c97-b9e5318a638a"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Arial" size="8"/>
+				</textElement>
+				<text><![CDATA[Fecha:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="77" width="77" height="14" uuid="81a45957-00c0-49b8-8c62-670a43b43485"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Usuario:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-22" y="95" width="114" height="14" uuid="55f77c76-ea9c-42d6-9e61-8853e4ac0ce9"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Periodo:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="-21" y="112" width="114" height="14" uuid="2b16ddd3-0129-4793-99fb-66537bfb2cfb"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Habilitacion:]]></text>
+			</staticText>
+			<textField isBlankWhenNull="true">
+				<reportElement x="100" y="113" width="90" height="12" uuid="70e7ad87-8d6d-44bf-a64a-2ec9b8d04dd4"/>
+				<textElement markup="styled">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{p_nro_habilitacion}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="96" width="126" height="12" uuid="53fd87f7-2b7e-45b5-99ce-58330602887b"/>
+				<textElement markup="styled">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{p_periodo}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement x="102" y="78" width="90" height="12" uuid="bacbc20a-4e9c-4643-89d7-d634dc61c3ca"/>
+				<textElement markup="styled">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{p_usuario}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="22">
+			<staticText>
+				<reportElement x="5" y="3" width="45" height="14" uuid="a5c07763-61cf-40ff-8de9-d2f503d8df34"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nombre]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="18" width="533" height="1" uuid="bb346d14-3d5f-45cc-a983-343b3c2bf89b"/>
+				<graphicElement>
+					<pen lineWidth="1.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="295" y="3" width="73" height="14" uuid="a9173d59-e790-42f5-8f1f-d6ade0f386c2"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Nro. Comprobante]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="107" y="3" width="73" height="14" uuid="7ccd0861-a563-4239-86f5-fa7bad0f8241"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Documento]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="206" y="3" width="73" height="14" uuid="eeef4994-0985-463b-a414-f22b54699c29"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="392" y="3" width="73" height="14" uuid="e9669f35-185f-4477-b378-30c5abce45fd"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Monto Comprobante]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25">
+			<textField>
+				<reportElement x="0" y="4" width="107" height="15" uuid="4ad6f857-b2e3-45b4-b50e-311a21ecf965"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombre}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="295" y="4" width="72" height="15" uuid="39f324b7-06f2-4ae6-8408-193d517cf902"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nro_comprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="111" y="4" width="79" height="15" uuid="70cd2535-3072-495a-9f34-985d7dd895a8"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{documento}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="210" y="4" width="79" height="15" uuid="30d41afc-fa2d-45fe-af2b-07d431137241"/>
+				<textElement textAlignment="Left">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{fec_comprobante}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="393" y="4" width="70" height="15" uuid="4195250a-7eb9-4290-91b2-e4059fd1c3d4"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tot_comprobante}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="53">
+			<subreport>
+				<reportElement x="-20" y="6" width="553" height="40" uuid="26dbaf8a-c3d1-42b9-954a-e9d93af52d9a"/>
+				<subreportParameter name="p_empresa_id">
+					<subreportParameterExpression><![CDATA[$P{p_empresa_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_usuario_id">
+					<subreportParameterExpression><![CDATA[$P{p_usuario_id}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="p_nro_habilitacion">
+					<subreportParameterExpression><![CDATA[$P{p_nro_habilitacion}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{subreport_dir} + "CobCobrosResumen.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>
